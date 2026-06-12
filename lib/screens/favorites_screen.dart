@@ -43,20 +43,36 @@ class FavoritesScreen extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Container(
-                        width: 70,
-                        height: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: item["img"] != null
-                              ? DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/${item["img"]}"),
-                                  fit: BoxFit.cover,
-                                )
-                              : null,
-                          color: Colors.grey,
-                        ),
+                      // 🟢 صورة API (تم التصحيح هنا)
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: item["img"] != null
+                            ? Image.network(
+                                item["img"],
+                                width: 70,
+                                height: 70,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 70,
+                                    height: 70,
+                                    color: Colors.grey,
+                                    child: const Icon(
+                                      Icons.image_not_supported,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                },
+                              )
+                            : Container(
+                                width: 70,
+                                height: 70,
+                                color: Colors.grey,
+                                child: const Icon(
+                                  Icons.image,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
 
                       const SizedBox(width: 10),
@@ -72,11 +88,9 @@ class FavoritesScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-
                             Text(
                               "${item["price"] ?? "0"} ريال",
-                              style:
-                                  const TextStyle(color: Colors.white70),
+                              style: const TextStyle(color: Colors.white70),
                             ),
                           ],
                         ),
@@ -90,6 +104,7 @@ class FavoritesScreen extends StatelessWidget {
                             "name": item["name"],
                             "price": item["price"],
                             "qty": 1,
+                            "img": item["img"], // مهم
                           });
 
                           ScaffoldMessenger.of(context).showSnackBar(

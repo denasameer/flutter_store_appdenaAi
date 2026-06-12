@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "761300202645",
+    "project_id": "flutternoorden",
+    "storage_bucket": "flutternoorden.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761300202645:android:b372649af2d234a03f179c",
+        "android_client_info": {
+          "package_name": "com.example.noorden"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0soEwLb-PInasY6oV_T1T1sAu1n3yZFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

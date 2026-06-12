@@ -17,9 +17,7 @@ class CartScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF2E3A59),
         title: const Text(
           "السلة 🛒",
-          style: TextStyle(
-            color: Color(0xFFC8A96A),
-          ),
+          style: TextStyle(color: Color(0xFFC8A96A)),
         ),
       ),
 
@@ -35,13 +33,10 @@ class CartScreen extends StatelessWidget {
             )
           : Column(
               children: [
-
                 Expanded(
                   child: ListView.builder(
                     itemCount: cart.cartItems.length,
-
                     itemBuilder: (context, index) {
-
                       final item = cart.cartItems[index];
 
                       return Container(
@@ -58,23 +53,37 @@ class CartScreen extends StatelessWidget {
 
                         child: Row(
                           children: [
-
-                            Container(
-                              width: 70,
-                              height: 70,
-
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(10),
-
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                    "assets/images/${item["img"]}",
-                                  ),
-
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
+                            // 🟢 صورة API (تم التصحيح)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: item["img"] != null
+                                  ? Image.network(
+                                      item["img"],
+                                      width: 70,
+                                      height: 70,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        return Container(
+                                          width: 70,
+                                          height: 70,
+                                          color: Colors.grey,
+                                          child: const Icon(
+                                            Icons.image_not_supported,
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : Container(
+                                      width: 70,
+                                      height: 70,
+                                      color: Colors.grey,
+                                      child: const Icon(
+                                        Icons.image,
+                                        color: Colors.white,
+                                      ),
+                                    ),
                             ),
 
                             const SizedBox(width: 10),
@@ -83,24 +92,20 @@ class CartScreen extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment:
                                     CrossAxisAlignment.start,
-
                                 children: [
-
                                   Text(
-                                    item["name"],
+                                    item["name"] ?? "",
                                     style: const TextStyle(
-                                      color:
-                                          Color(0xFFC8A96A),
+                                      color: Color(0xFFC8A96A),
                                       fontSize: 16,
-                                      fontWeight:
-                                          FontWeight.bold,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
 
                                   const SizedBox(height: 5),
 
                                   Text(
-                                    "${item["price"]} ريال",
+                                    "${item["price"] ?? 0} ريال",
                                     style: const TextStyle(
                                       color: Colors.white70,
                                     ),
@@ -109,14 +114,13 @@ class CartScreen extends StatelessWidget {
                               ),
                             ),
 
+                            // 🟢 التحكم بالكمية
                             Row(
                               children: [
-
                                 IconButton(
                                   onPressed: () {
                                     cart.decreaseQuantity(index);
                                   },
-
                                   icon: const Icon(
                                     Icons.remove,
                                     color: Colors.white,
@@ -125,7 +129,6 @@ class CartScreen extends StatelessWidget {
 
                                 Text(
                                   "${item["qty"]}",
-
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -136,7 +139,6 @@ class CartScreen extends StatelessWidget {
                                   onPressed: () {
                                     cart.increaseQuantity(index);
                                   },
-
                                   icon: const Icon(
                                     Icons.add,
                                     color: Colors.white,
@@ -149,7 +151,6 @@ class CartScreen extends StatelessWidget {
                               onPressed: () {
                                 cart.removeFromCart(index);
                               },
-
                               icon: const Icon(
                                 Icons.delete,
                                 color: Colors.red,
@@ -162,16 +163,12 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
 
-                
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
-
                   color: const Color(0xFF2E3A59),
-
                   child: Text(
                     "المجموع: ${cart.totalPrice} ريال",
-
                     style: const TextStyle(
                       color: Color(0xFFC8A96A),
                       fontSize: 18,
